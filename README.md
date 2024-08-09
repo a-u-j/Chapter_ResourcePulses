@@ -1,1 +1,1 @@
-# Resource-Pulses-Chapter
+# Resource Pulses Chapter
