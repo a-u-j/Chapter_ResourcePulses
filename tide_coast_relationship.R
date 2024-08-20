@@ -1,3 +1,5 @@
+install.packages("mgcViz")
+library(mgcViz)
 library(mgcv)
 library(effects)
 library(performance)
@@ -104,6 +106,7 @@ ks_test_result <- ks.test(data_receding, data_rising)
 wilcox_test_result <- wilcox.test(data_receding, data_rising)
 
 
+
 ###### MODEL 1 <- TIDE, 2023 ####
 
 model <- glmer(coast_yn ~ tide_cat + (1 | id), data = data_clean_2023, family = binomial())
@@ -168,7 +171,30 @@ plot(hours, predicted_probs, type = "l", xlab = "Hour of Day", ylab = "Predicted
 
 
 ##### MODEL 3 <- TIDE, Coast Dist - didn't use ######
-
 model3 <- lmer(coast_dist ~ tide_cat + (1 | id), data = data_clean_2023)
 summary(model3)
+
+
+
+
+##### MODEL 4 <- Time of Day
+
+gam_model <- gam(coast_yn ~ s(hour),
+                   family = binomial, 
+                   data = data_clean)
+
+#gam_model_check <- simulateResiduals(gam_model, plot = TRUE)
+#check_overdispersion(gam_model)
+
+# Generate predictions of probabilities for each hour of the day
+hours_seq <- data.frame(hour = seq(0, 23, length.out = 100))
+linear_pred <- predict(gam_model, newdata = hours_seq, type = "link")
+probabilities <- plogis(linear_pred)
+plot_data <- data.frame(hour = hours_seq$hour, probability = probabilities)
+
+ggplot(plot_data, aes(x = hour, y = probability)) +
+  geom_line(color = "blue") +
+  labs(x = "Hour of the Day", y = "Probability of Being on Coast",
+       title = "Probability of Being on the Coast by Hour of the Day") +
+  theme_minimal()
 
