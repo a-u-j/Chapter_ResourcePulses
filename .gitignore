@@ -4,3 +4,5 @@
 .Ruserdata
 .DS_Store
 input/tidal_data.csv
+input/onland_iNaturalist_obs.csv
+input/onland_iNaturalist_obs_augmented.csv
