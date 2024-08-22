@@ -14,8 +14,6 @@ library(sjPlot)
 library(cowplot)
 library(cosinor)
 
-options(scipen = 20)
-
 data_raw <- read.csv("~/GitHub/collar_data_preparation/output/2-cleaned_collar_data.csv")
 coast <- read.csv("~/GitHub/collar_data_preparation/output/covariates/coast_gps.csv")
 coast <- select(coast,"rownum", "coast_dist", "coast_yn")
